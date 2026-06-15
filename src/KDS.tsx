@@ -373,6 +373,7 @@ export const RestaurantKDS = () => {
   const processed = freshOrders.filter(o => o.status === 'processed');
 
   const todayRevenue = orders.filter(o => o.status !== 'cancelled').reduce((a, o) => a + o.total, 0);
+  const restaurantRevenue = todayRevenue * 0.80;
   const completedOrders = orders.filter(o => o.status === 'processed');
   const restaurantEarnings = todayRevenue * 0.80;
   const boufetCommission = todayRevenue * 0.20;
@@ -391,7 +392,7 @@ export const RestaurantKDS = () => {
 
         {/* Stats */}
         <div className="hidden md:flex items-center gap-6">
-          <div className="text-center"><p className="text-xs text-gray-400">Revenue</p><p className="font-bold text-teal-400">${sf(todayRevenue)}</p></div>
+          <div className="text-center"><p className="text-xs text-gray-400">Revenue</p><p className="font-bold text-teal-400">${sf(restaurantRevenue)}</p></div>
           <div className="text-center"><p className="text-xs text-gray-400">Orders</p><p className="font-bold">{orders.filter(o => o.status !== 'cancelled').length}</p></div>
           <div className="text-center"><p className="text-xs text-gray-400">Active</p><p className="font-bold text-yellow-400">{preparing.length}</p></div>
         </div>
@@ -688,7 +689,8 @@ export const RestaurantKDS = () => {
                 <p className="text-xs text-gray-500 mt-1">{order.createdAt.toLocaleString()}</p>
               </div>
               <div className="text-right">
-                <p className="font-bold text-teal-400">${sf(order.total)}</p>
+                <p className="font-bold text-teal-400">${sf(order.total * 0.80)}</p>
+                <p className="text-xs text-gray-500">of ${sf(order.total)} order</p>
                 <span className={`text-xs px-2 py-0.5 rounded-full ${order.status === 'cancelled' ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}`}>
                   {order.status}
                 </span>
