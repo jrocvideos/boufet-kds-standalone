@@ -138,7 +138,7 @@ const KDSCard = ({ order, onAction }: { order: Order; onAction: (id: string, sta
     >
       {/* Incoming pulse animation */}
       {isIncoming && (
-        <div className="absolute inset-0 rounded-2xl border-2 border-red-500 animate-ping opacity-20" />
+        <div className="absolute inset-0 rounded-2xl border-2 border-red-500 animate-ping opacity-20 pointer-events-none" />
       )}
 
       {/* Header */}
