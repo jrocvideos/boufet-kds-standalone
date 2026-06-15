@@ -373,10 +373,10 @@ export const RestaurantKDS = () => {
   const processed = freshOrders.filter(o => o.status === 'processed');
 
   const todayRevenue = orders.filter(o => o.status !== 'cancelled').reduce((a, o) => a + o.total, 0);
-  const restaurantRevenue = todayRevenue * 0.80;
-  const restaurantRevenue = todayRevenue * 0.80;
+  const restaurantRevenue = todayRevenue;  // GROSS - what customer paid
   const completedOrders = orders.filter(o => o.status === 'processed');
-  const restaurantEarnings = todayRevenue * 0.80;
+  const boufetCommission = todayRevenue * 0.20;
+  const restaurantEarnings = todayRevenue - boufetCommission;
   const boufetCommission = todayRevenue * 0.20;
 
   return (
