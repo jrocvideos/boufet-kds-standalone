@@ -153,7 +153,7 @@ const KDSCard = ({ order, onAction }: { order: Order; onAction: (id: string, sta
           </div>
         </div>
         <div className="text-right">
-          <p className="text-xl font-bold text-white">${sf(order.total)}</p>
+          <p className="text-xl font-bold text-white">${sf(order.subtotal)}</p>
 
         </div>
       </div>
@@ -278,7 +278,7 @@ export const RestaurantKDS = () => {
               customerName: o.customer_name || 'Customer',
               status: o.status,
               items: (o.items || []).map((i: any) => ({ id: i.id, name: i.name, quantity: i.quantity })),
-              total: parseFloat(o.total) || 0,
+              total: parseFloat(o.subtotal) || 0,
               tip: parseFloat(o.tip) || 0,
               createdAt: new Date(o.created_at || Date.now()),
               address: o.customer_address || '',
@@ -305,7 +305,7 @@ export const RestaurantKDS = () => {
             customerName: order.customer_name || 'Customer',
             status: 'incoming',
             items: (order.items || []).map((i: any) => ({ id: i.id, name: i.name, quantity: i.quantity })),
-            total: order.total || 0,
+            total: order.subtotal || 0,
             tip: order.tip || 0,
             createdAt: new Date(order.created_at || Date.now()),
             address: order.customer_address || '',
