@@ -241,7 +241,7 @@ export const RestaurantKDS = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [connected, setConnected] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
-  const [activeTab, setActiveTab] = useState<'kitchen'|'earnings'|'advanced'>('kitchen');
+  const [activeTab, setActiveTab] = useState<'kitchen'|'earnings'|'advanced'|'history'>('kitchen');
   const [lastUpdate, setLastUpdate] = useState(new Date());
   const socketRef = useRef<Socket | null>(null);
 
@@ -419,6 +419,9 @@ export const RestaurantKDS = () => {
         </button>
         <button onClick={() => setActiveTab('earnings')} className={`px-4 py-2 rounded-xl text-sm font-bold transition-colors ${activeTab==='earnings' ? 'bg-teal-600 text-white' : 'text-gray-400 hover:bg-gray-800'}`}>
           💰 Earnings
+        </button>
+        <button onClick={() => setActiveTab('history')} className={`px-4 py-2 rounded-xl text-sm font-bold transition-colors ${activeTab==='history' ? 'bg-gray-600 text-white' : 'text-gray-400 hover:bg-gray-800'}`}>
+          📋 History
         </button>
       </div>
 
@@ -663,6 +666,35 @@ export const RestaurantKDS = () => {
             <p className="text-sm text-gray-300 mt-1">With Boufet you keep <span className="text-teal-400 font-bold">${sf(restaurantEarnings)}</span></p>
             <p className="text-teal-400 font-bold mt-2">You saved ${sf((todayRevenue * 0.10))} today by using Boufet 🎉</p>
           </div>
+        </div>
+      )}
+
+      {/* History Tab */}
+      {activeTab === 'history' && (
+        <div className="flex-1 overflow-y-auto p-6 space-y-3">
+          <h2 className="text-lg font-bold text-gray-200 mb-4">Order History</h2>
+          {orders.filter(o => ['processed','delivered','cancelled'].includes(o.status)).length === 0 && (
+            <div className="flex flex-col items-center justify-center h-40 text-gray-600">
+              <span className="text-4xl mb-3">📋</span>
+              <p className="text-sm">No completed orders yet</p>
+            </div>
+          )}
+          {orders.filter(o => ['processed','delivered','cancelled'].includes(o.status)).map(order => (
+            <div key={order.id} className="bg-gray-900 border border-gray-800 rounded-xl p-4 flex items-center justify-between">
+              <div>
+                <p className="font-mono text-xs text-gray-400">{order.orderNumber}</p>
+                <p className="font-bold text-white">{order.customerName}</p>
+                <p className="text-xs text-gray-400">{order.items.map(i => `${i.quantity}x ${i.name}`).join(', ')}</p>
+                <p className="text-xs text-gray-500 mt-1">{order.createdAt.toLocaleString()}</p>
+              </div>
+              <div className="text-right">
+                <p className="font-bold text-teal-400">${sf(order.total)}</p>
+                <span className={`text-xs px-2 py-0.5 rounded-full ${order.status === 'cancelled' ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}`}>
+                  {order.status}
+                </span>
+              </div>
+            </div>
+          ))}
         </div>
       )}
 
