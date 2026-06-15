@@ -377,11 +377,8 @@ export const RestaurantKDS = () => {
   const completedOrders = orders.filter(o => o.status === 'processed');
   const boufetCommission = todayRevenue * 0.20;
   const restaurantEarnings = todayRevenue - boufetCommission;
-  const boufetCommission = todayRevenue * 0.20;
-
   return (
     <div className="min-h-screen bg-gray-950 text-white flex flex-col">
-      {/* Header */}
       <div className="bg-gray-900 border-b border-gray-800 px-6 py-3 flex items-center justify-between flex-shrink-0">
         <div className="flex items-center gap-4">
           <div className="w-10 h-10 rounded-xl bg-teal-600 flex items-center justify-center font-bold text-lg">B</div>
