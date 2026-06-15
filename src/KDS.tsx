@@ -331,7 +331,10 @@ export const RestaurantKDS = () => {
     setOrders(prev => prev.map(o => o.id === id ? { ...o, status: newStatus } : o));
     fetch(`${API_URL}/api/orders/${id}/status`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'x-kds-secret': 'BoufetKDS2026',
+      },
       body: JSON.stringify({ status: newStatus }),
     }).catch(() => {});
     setLastUpdate(new Date());
@@ -402,9 +405,7 @@ export const RestaurantKDS = () => {
           <button onClick={() => setSoundEnabled(!soundEnabled)} className="p-2 rounded-lg bg-gray-800 border border-gray-700">
             {soundEnabled ? <Bell className="w-4 h-4 text-teal-400" /> : <BellOff className="w-4 h-4 text-gray-500" />}
           </button>
-          <button onClick={addTestOrder} className="flex items-center gap-2 px-4 py-2 bg-teal-600 hover:bg-teal-500 rounded-xl font-medium text-sm transition-colors">
-            <Package className="w-4 h-4" /> + Test Order
-          </button>
+
         </div>
       </div>
 
