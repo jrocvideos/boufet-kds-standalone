@@ -46,7 +46,7 @@ interface Order {
   status: OrderStatus;
   items: OrderItem[];
   total: number;
-  subtotal: number;
+  subtotal?: number;
   tip: number;
   createdAt: Date;
   address: string;
