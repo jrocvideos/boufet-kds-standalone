@@ -372,7 +372,7 @@ export const RestaurantKDS = () => {
   const advanced = orders.filter(o => o.status === 'advanced');
   const processed = freshOrders.filter(o => o.status === 'processed');
 
-  const todayRevenue = orders.filter(o => o.status !== 'cancelled').reduce((a, o) => a + o.total, 0);
+  const todayRevenue = orders.filter(o => o.status !== 'cancelled').reduce((a, o) => a + o.subtotal, 0);
   const restaurantRevenue = todayRevenue;  // GROSS - what customer paid
   const completedOrders = orders.filter(o => o.status === 'processed');
   const boufetCommission = todayRevenue * 0.20;
@@ -594,7 +594,7 @@ export const RestaurantKDS = () => {
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="text-2xl font-bold text-purple-400">${sf(order.total)}</p>
+                  <p className="text-2xl font-bold text-purple-400">${sf(order.subtotal)}</p>
                   <p className="text-xs text-yellow-400">${sf(order.tip)} tip</p>
                 </div>
               </div>
@@ -645,8 +645,8 @@ export const RestaurantKDS = () => {
                     <p className="text-xs text-gray-400">{o.customerName} · {o.items.length} items</p>
                   </div>
                   <div className="text-right">
-                    <p className="font-bold text-teal-400">${sf(o.total)}</p>
-                    <p className="text-xs text-gray-500">${sf((o.total * 0.80))} yours</p>
+                    <p className="font-bold text-teal-400">${sf(o.subtotal)}</p>
+                    <p className="text-xs text-gray-500">${sf((o.subtotal * 0.80))} yours</p>
                   </div>
                 </div>
               ))}
@@ -687,8 +687,8 @@ export const RestaurantKDS = () => {
                 <p className="text-xs text-gray-500 mt-1">{order.createdAt.toLocaleString()}</p>
               </div>
               <div className="text-right">
-                <p className="font-bold text-teal-400">${sf(order.total * 0.80)}</p>
-                <p className="text-xs text-gray-500">of ${sf(order.total)} order</p>
+                <p className="font-bold text-teal-400">${sf(order.subtotal * 0.80)}</p>
+                <p className="text-xs text-gray-500">of ${sf(order.subtotal)} order</p>
                 <span className={`text-xs px-2 py-0.5 rounded-full ${order.status === 'cancelled' ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}`}>
                   {order.status}
                 </span>
