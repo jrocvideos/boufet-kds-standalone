@@ -391,7 +391,7 @@ export const RestaurantKDS = () => {
 
         {/* Stats */}
         <div className="hidden md:flex items-center gap-6">
-          <div className="text-center"><p className="text-xs text-gray-400">Revenue</p><p className="font-bold text-teal-400">${sf(restaurantRevenue)}</p></div>
+          <div className="text-center"><p className="text-xs text-gray-400">Revenue</p><p className="font-bold text-teal-400">${sf(restaurantEarnings)}</p></div>
           <div className="text-center"><p className="text-xs text-gray-400">Orders</p><p className="font-bold">{orders.filter(o => o.status !== 'cancelled').length}</p></div>
           <div className="text-center"><p className="text-xs text-gray-400">Active</p><p className="font-bold text-yellow-400">{preparing.length}</p></div>
         </div>
