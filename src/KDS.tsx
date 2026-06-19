@@ -154,7 +154,7 @@ const KDSCard = ({ order, onAction }: { order: Order; onAction: (id: string, sta
         </div>
         <div className="text-right">
           <p className="text-xl font-bold text-white">${sf(order.subtotal ?? order.total)}</p>
-
+          <p className="text-xs text-emerald-400">You earn ${sf((order.subtotal ?? order.total) * 0.80)}</p>
         </div>
       </div>
 
