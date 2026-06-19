@@ -351,6 +351,43 @@ export const RestaurantKDS = () => {
               isExpress: false,
             }));
             setOrders(prev => {
+              const activeIds = new Set(mapped.map((m: any) => m.id));
+              const keepFromPrev = prev.filter(p => !activeIds.has(p.id));
+              return [...mapped, ...keepFromPrev];
+            });
+            setLastUpdate(new Date());
+          }
+        })
+        .catch(() => {});
+    };
+    pollOrders();
+    const pollInterval = setInterval(pollOrders, 10000);
+    return () => clearInterval(pollInterval);
+  }, [slug]);
+
+  // Polling fallback in case socket misses updates
+  useEffect(() => {
+    const restaurantId = RESTAURANT_IDS[slug || ''] || slug || 'restaurant_1';
+    const pollOrders = () => {
+      fetch(`${API_URL}/api/orders?status=incoming,preparing,ready,driver_assigned,picked_up,out_for_delivery&limit=50&restaurant_id=${restaurantId}`)
+        .then(r => r.json())
+        .then(data => {
+          if (Array.isArray(data)) {
+            const mapped = data.map((o: any) => ({
+              id: o.id,
+              orderNumber: `ORD-${o.id.slice(0, 6).toUpperCase()}`,
+              customerName: o.customer_name || 'Customer',
+              status: o.status,
+              items: (o.items || []).map((i: any) => ({ id: i.id, name: i.name, quantity: i.quantity })),
+              total: parseFloat(o.total) || 0,
+              subtotal: parseFloat(o.subtotal) || parseFloat(o.total) || 0,
+              tip: parseFloat(o.tip) || 0,
+              createdAt: new Date(o.created_at || Date.now()),
+              address: o.customer_address || '',
+              orderType: 'delivery' as const,
+              isExpress: false,
+            }));
+            setOrders(prev => {
               // Merge: keep processed/delivered history already loaded, update active ones
               const activeIds = new Set(mapped.map((m: any) => m.id));
               const keepFromPrev = prev.filter(p => !activeIds.has(p.id));
